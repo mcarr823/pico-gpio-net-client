@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation(libs.ktor.network)
     testImplementation(kotlin("test"))
+    testImplementation(libs.coroutines.test)
 }
 
 tasks.test {
