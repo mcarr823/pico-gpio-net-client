@@ -1,5 +1,8 @@
 [versions]
 kotlin-version = "2.0.21"
+ktor-version = "3.0.1"
+[libraries]
+ktor-network = { module = "io.ktor:ktor-network", version.ref = "ktor-version" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-version" }

@@ -10,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.ktor.network)
     testImplementation(kotlin("test"))
 }
 
