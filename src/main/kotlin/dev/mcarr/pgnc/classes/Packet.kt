@@ -38,6 +38,8 @@ class Packet(
      * The above request sets the command to SET_PIN_SINGLE, appends
      * the pin, appends the value to set for that pin, then compiles
      * the data into a packet.
+     *
+     * @param command The command to send with this packet of data
      * */
     class Builder(
         private val command: Command
@@ -54,28 +56,42 @@ class Packet(
         private val data = ArrayList<ByteArray>()
 
         /**
-         * Appends 
+         * Appends a single byte to the buffer.
+         *
+         * @param byte Single byte of data to append to the current buffer
+         *
+         * @return The current builder instance
          * */
         fun addData(byte: Byte): Builder {
             addData(byteArrayOf(byte))
             return this
         }
 
+        /**
+         * Appends multiple bytes to the buffer.
+         *
+         * @param bytes Byte data to append to the current buffer
+         *
+         * @return The current builder instance
+         * */
         fun addData(bytes: ByteArray): Builder {
             data.add(bytes)
             return this
         }
 
+        /**
+         * Compiles the byte data in the buffer into a Packet.
+         * */
         fun build(): Packet {
 
-            val commandByte = command.value.toByte()
+            val commandByte = command.value
 
             // +1 because of commandByte
             var offset = 1
             val totalLength = 1 + data.sumOf { it.size }
 
             val returnData = ByteArray(totalLength)
-            returnData.set(0, commandByte)
+            returnData[0] = commandByte
 
             data.forEach { bytes ->
                 bytes.copyInto(returnData, offset)

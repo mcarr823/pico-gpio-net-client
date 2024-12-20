@@ -71,6 +71,8 @@ class PicoGpioNetClient(
      *
      * @param cmd Array of bytes to send
      * @param length Expected length of the response from the server
+     *
+     * @return Server response to the read request
      * */
     suspend fun read(packet: Packet, length: Int): ByteArray {
         flush()
@@ -78,6 +80,13 @@ class PicoGpioNetClient(
         return read(length)
     }
 
+    /**
+     * Reads the specified number of bytes from the socket.
+     *
+     * @param length Number of bytes to read from the socket
+     *
+     * @return Bytes read from the socket
+     * */
     suspend fun read(length: Int): ByteArray =
         sock.read(length)
 
