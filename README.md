@@ -2,7 +2,7 @@
 
 ## What is it?
 
-PGNC (pico-gpio-net-client) is a Kotlin library for interacting with a pico-gpio-net daemon running on a Raspberry Pi Pico.
+PGNC (pico-gpio-net-client) is a Kotlin library for interacting with a [pico-gpio-net daemon](https://github.com/mcarr823/pico-gpio-net) running on a Raspberry Pi Pico.
 
 It abstracts away the nitty-gritty of communicating with the daemon, so you can utilize human-readable client commands instead of manipulating raw byte data.
 
