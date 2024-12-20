@@ -6,15 +6,61 @@ import dev.mcarr.pgnc.socket.KtorSocketClient
 import java.io.Closeable
 import java.nio.ByteBuffer
 
+/**
+ * Client for interacting with the PGN daemon.
+ *
+ * This is the class responsible for translating human-readable
+ * function names and variables to raw byte data, and transmitting
+ * that data back and forth over the socket.
+ *
+ * To use this class, you must first call `connect()`, and you should
+ * remember to close the client after you've finished using it.
+ *
+ * While connected, you can issue commands to the PGN daemon by calling
+ * the functions within this class.
+ *
+ * Example usage:
+ * ```
+ * val serverName = PicoGpioNetClient(ip, port).use{ client ->
+ *     client.connect()
+ *     val apiVersion = client.getApiVersion()
+ *     if (apiVersion >= Command.CMD_GET_NAME.apiVersion)
+ *         client.getName()
+ *     else
+ *         "Unknown device name"
+ * }
+ * ```
+ *
+ * @param ip IP address of the Pico device running
+ * PGN which we want to connect to.
+ * @param port Port on which PGN is running. This is
+ * usually port 8080.
+ * @param autoFlush If true, flush all writes to the
+ * PGN daemon automatically.
+ * */
 class PicoGpioNetClient(
     private val ip: String,
     private val port: Int,
     private val autoFlush: Boolean = false
 ) : Closeable {
 
+    /**
+     * Underlying TCP socket connection which handles the
+     * actual transmission of data.
+     * */
     private val sock = KtorSocketClient()
+
+    /**
+     * Pending write requests.
+     * */
     private val queue = ArrayList<Packet>()
 
+    /**
+     * Attempts to establish a connection to the PGN daemon.
+     *
+     * This function must be called prior to attempting any
+     * reads or writes.
+     * */
     suspend fun connect(){
         sock.connect(ip, port)
     }
@@ -23,19 +69,33 @@ class PicoGpioNetClient(
         sock.close()
     }
 
+    /**
+     * Manually flushes the queue.
+     *
+     * Writes all pending data to the queue and waits until
+     * responses have been received for all data packets.
+     *
+     * This function must be called manually if `autoFlush` is
+     * set to false.
+     *
+     * @return List of success states for each data packet's command.
+     * ie. True if the operation ran successfully on the PGN daemon.
+     * */
     suspend fun flush(): List<Boolean> {
 
         if (queue.isEmpty()) return listOf()
 
         println("Flushing: ${queue.size}")
 
-        // Send all of the data at once
+        // Queue all of the data
         queue.forEach {
             sock.write(it.data)
         }
 
+        // Then send it all at once
         sock.flush()
 
+        // Then wait for the results of all of those operations
         val results = read(queue.size)
         val boolResults = List<Boolean>(queue.size){ i ->
             results[i].toInt() == 1
@@ -55,10 +115,11 @@ class PicoGpioNetClient(
      *  doesn't provide any further insight into the operation
      *  beyond that.
      *
-     *  @param cmd Array of bytes to send
+     *  @param packet Data packet which contains an array of bytes to
+     *  send to the PGN daemon.
      * */
-    suspend fun write(cmd: Packet){
-        queue.add(cmd)
+    suspend fun write(packet: Packet){
+        queue.add(packet)
         println("Queue count: ${queue.size}")
         if (autoFlush) flush()
     }
@@ -69,7 +130,8 @@ class PicoGpioNetClient(
      * A read request is one which expects a meaningful response.
      * For example, reading data from SPI, or reading a pin's state.
      *
-     * @param cmd Array of bytes to send
+     *  @param packet Data packet which contains an array of bytes to
+     *  send to the PGN daemon.
      * @param length Expected length of the response from the server
      *
      * @return Server response to the read request
@@ -93,8 +155,8 @@ class PicoGpioNetClient(
     /**
      * Sets the state of a single pin.
      *
-     * `pin` The number of the pin to change the state of
-     * `value` New value to set for the pin
+     * @param pin The pin to change the state of
+     * @param value New value to set for the pin
      * */
     suspend fun setPin(pin: Byte, value: Byte){
         Packet.Builder(Command.CMD_SET_PIN_SINGLE)
@@ -106,9 +168,9 @@ class PicoGpioNetClient(
     /**
      * Sets the states of multiple pins.
      *
-     * `pinsAndValues` Array of pin:value pairs.
-     * eg. [ [16,1], [18,0] ]
-     * would set pin 16 to value 1, and pin 18 to value 0.
+     * @param pinsAndValues List of pairs, where the first value
+     * of each pair is the pin, and the second value of each pair
+     * is the value which that pin should be set to.
      * */
     suspend fun setPins(pinsAndValues: List<Pair<Byte, Byte>>){
         val numberOfPins = pinsAndValues.size.toByte()
@@ -157,7 +219,7 @@ class PicoGpioNetClient(
     /**
      * Sends raw byte data to write over SPI.
      *
-     * `bytedata` Array of bytes to write to the SPI device
+     * @param data Array of bytes to write to the SPI device
      * */
     suspend fun spiWrite(data: ByteArray){
         println("SPI write. Length: ${data.size}")
@@ -230,6 +292,8 @@ class PicoGpioNetClient(
      * The remaining bytes are the encoded name.
      *
      * Command introduced in API version 2.
+     *
+     * @return Name of the device running the PGN daemon
      * */
     suspend fun getName(): String {
         println("Getting device name")
@@ -251,6 +315,8 @@ class PicoGpioNetClient(
      * Note that although it was introduced in version 2, this command
      * "accidentally" works in version 1 as well, since the default
      * response for an unknown command is [1].
+     *
+     * @return API version of the PGN daemon running on the target device
      * */
     suspend fun getApiVersion(): Byte =
         Packet.Builder(Command.CMD_GET_API_VERSION)
@@ -258,29 +324,71 @@ class PicoGpioNetClient(
 
 
 
+    /**
+     * Converts an Int to an array of bytes so that it can be
+     * sent over the TCP socket.
+     *
+     * @return Byte array representation of the given Int
+     * */
     private fun Int.toByteArray(): ByteArray =
         ByteBuffer.allocate(4)
             .putInt(this)
             .array()
 
+    /**
+     * Converts a Short to an array of bytes so that it can be
+     * sent over the TCP socket.
+     *
+     * @return Byte array representation of the given Short
+     * */
     private fun Short.toByteArray(): ByteArray =
         ByteBuffer.allocate(2)
             .putShort(this)
             .array()
 
+    /**
+     * Converts an array of bytes which was received from the TCP
+     * socket to an Int.
+     *
+     * @return Int value represented by the byte array
+     * */
     private fun ByteArray.toInt(): Int =
         ByteBuffer.wrap(this).int
 
+    /**
+     * Convenience function for compiling a Packet.Builder object
+     * to a Packet object and writing it to the socket in one go.
+     * */
     private suspend fun Packet.Builder.write(){
         val packet = this.build()
         write(packet)
     }
 
+    /**
+     * Convenience function for compiling a Packet.Builder object
+     * to a Packet object, writing it to the socket, and reading
+     * the response from the server in one go.
+     *
+     * @param length Number of bytes expected to be received from the
+     * server in response to the packet being sent.
+     *
+     * @return Response from the server. Should be exactly `length`
+     * bytes in length.
+     * */
     private suspend fun Packet.Builder.read(length: Int): ByteArray {
         val packet = this.build()
         return read(packet, length)
     }
 
+    /**
+     * Convenience function for compiling a Packet.Builder object
+     * to a Packet object, writing it to the socket, and reading
+     * the response from the server in one go.
+     *
+     * The response is assumed to be a single byte in length.
+     *
+     * @return Response from the server
+     * */
     private suspend fun Packet.Builder.readSingle(): Byte {
         return read(1)[0]
     }

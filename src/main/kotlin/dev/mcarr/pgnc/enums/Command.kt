@@ -1,5 +1,20 @@
 package dev.mcarr.pgnc.enums
 
+/**
+ * Represents a command which the PGN daemon knows how to interpret
+ * and respond to.
+ *
+ * Every packet of data sent to the PGN daemon must start with one
+ * of these commands.
+ *
+ * @param value The raw byte value which gets sent via the socket
+ * to the PGN daemon.
+ * @param apiVersion The API version in which the given command
+ * was introduced. ie. The PGN daemon must be that version or higher
+ * in order to understand the given command.
+ *
+ * @see dev.mcarr.pgnc.classes.Packet
+ * */
 enum class Command(
     val value: Byte,
     val apiVersion: Int
