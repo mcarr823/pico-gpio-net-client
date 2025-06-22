@@ -3,8 +3,8 @@ package dev.mcarr.pgnc
 import dev.mcarr.pgnc.classes.Packet
 import dev.mcarr.pgnc.enums.Command
 import dev.mcarr.pgnc.socket.KtorSocketClient
-import java.io.Closeable
-import java.nio.ByteBuffer
+import io.ktor.utils.io.bits.*
+import io.ktor.utils.io.core.*
 
 /**
  * Client for interacting with the PGN daemon.
@@ -301,7 +301,7 @@ class PicoGpioNetClient(
             .readSingle()
             .toInt()
         val nameBytes = read(length)
-        return nameBytes.toString(Charsets.UTF_8)
+        return nameBytes.decodeToString()
     }
 
     /**
@@ -323,37 +323,6 @@ class PicoGpioNetClient(
             .readSingle()
 
 
-
-    /**
-     * Converts an Int to an array of bytes so that it can be
-     * sent over the TCP socket.
-     *
-     * @return Byte array representation of the given Int
-     * */
-    private fun Int.toByteArray(): ByteArray =
-        ByteBuffer.allocate(4)
-            .putInt(this)
-            .array()
-
-    /**
-     * Converts a Short to an array of bytes so that it can be
-     * sent over the TCP socket.
-     *
-     * @return Byte array representation of the given Short
-     * */
-    private fun Short.toByteArray(): ByteArray =
-        ByteBuffer.allocate(2)
-            .putShort(this)
-            .array()
-
-    /**
-     * Converts an array of bytes which was received from the TCP
-     * socket to an Int.
-     *
-     * @return Int value represented by the byte array
-     * */
-    private fun ByteArray.toInt(): Int =
-        ByteBuffer.wrap(this).int
 
     /**
      * Convenience function for compiling a Packet.Builder object
@@ -391,6 +360,48 @@ class PicoGpioNetClient(
      * */
     private suspend fun Packet.Builder.readSingle(): Byte {
         return read(1)[0]
+    }
+
+    companion object{
+
+        /**
+         * Converts an Int to an array of bytes so that it can be
+         * sent over the TCP socket.
+         *
+         * @return Byte array representation of the given Int
+         * */
+        fun Int.toByteArray(): ByteArray =
+            byteArrayOf(
+                (this shr 24).toByte(),
+                (this shr 16).toByte(),
+                (this shr 8).toByte(),
+                (this shr 0).toByte()
+            )
+
+        /**
+         * Converts a Short to an array of bytes so that it can be
+         * sent over the TCP socket.
+         *
+         * @return Byte array representation of the given Short
+         * */
+        fun Short.toByteArray(): ByteArray =
+            byteArrayOf(
+                this.highByte,
+                this.lowByte
+            )
+
+        /**
+         * Converts an array of bytes which was received from the TCP
+         * socket to an Int.
+         *
+         * @return Int value represented by the byte array
+         * */
+        fun ByteArray.toInt(): Int =
+            (this[0].toInt() shl 24) or
+            (this[1].toInt() and 0xff shl 16) or
+            (this[2].toInt() and 0xff shl 8) or
+            (this[3].toInt() and 0xff)
+
     }
 
 }

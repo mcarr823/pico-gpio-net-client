@@ -1,9 +1,14 @@
 package dev.mcarr.pgnc
 
+import dev.mcarr.pgnc.PicoGpioNetClient.Companion.toByteArray
+import dev.mcarr.pgnc.PicoGpioNetClient.Companion.toInt
+import io.ktor.utils.io.core.use
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withContext
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 /**
  * Unit tests for the PicoGpioNetClient class.
@@ -68,7 +73,7 @@ class PicoGpioNetClientTest {
     fun getNameTest() = runSocketTest { socket ->
         val name = socket.getName()
         println(name)
-        assert(name.isNotEmpty())
+        assertTrue(name.isNotEmpty())
     }
 
     /**
@@ -79,7 +84,7 @@ class PicoGpioNetClientTest {
     fun getApiVersionTest() = runSocketTest { socket ->
         val apiVersion = socket.getApiVersion()
         println("API version: $apiVersion")
-        assert(apiVersion > 0)
+        assertTrue(apiVersion > 0)
     }
 
     /**
@@ -91,8 +96,8 @@ class PicoGpioNetClientTest {
     fun waitForPinTest() = runSocketTest { socket ->
         socket.waitForPin(1, 0, 100)
         val result = socket.flush()
-        assert(result.size == 1)
-        assert(result[0])
+        assertEquals(1, result.size)
+        assertTrue(result[0])
     }
 
     /**
@@ -104,8 +109,8 @@ class PicoGpioNetClientTest {
     fun delayTest() = runSocketTest { socket ->
         socket.delay(100)
         val result = socket.flush()
-        assert(result.size == 1)
-        assert(result[0])
+        assertEquals(1, result.size)
+        assertTrue(result[0])
     }
 
     /**
@@ -118,8 +123,8 @@ class PicoGpioNetClientTest {
         val data = byteArrayOf(0, 1, 2, 3, 4)
         socket.spiWrite(data)
         val result = socket.flush()
-        assert(result.size == 1)
-        assert(result[0])
+        assertEquals(1, result.size)
+        assertTrue(result[0])
     }
 
     /**
@@ -135,7 +140,7 @@ class PicoGpioNetClientTest {
     fun getPinsTest() = runSocketTest { socket ->
         val data = byteArrayOf(0, 1, 2, 3, 4)
         val result = socket.getPins(data)
-        assert(result.size == data.size)
+        assertEquals(result.size, data.size)
     }
 
     /**
@@ -145,7 +150,7 @@ class PicoGpioNetClientTest {
     @Test
     fun getPinTest() = runSocketTest { socket ->
         val result = socket.getPin(1)
-        assert(result >= 0)
+        assertTrue(result >= 0)
     }
 
     /**
@@ -162,8 +167,8 @@ class PicoGpioNetClientTest {
         }
         socket.setPins(pinsAndValues)
         val result = socket.flush()
-        assert(result.size == 1)
-        assert(result[0])
+        assertEquals(1, result.size)
+        assertTrue(result[0])
     }
 
     /**
@@ -175,8 +180,8 @@ class PicoGpioNetClientTest {
     fun setPinTest() = runSocketTest { socket ->
         socket.setPin(1, 0)
         val result = socket.flush()
-        assert(result.size == 1)
-        assert(result[0])
+        assertEquals(1, result.size)
+        assertTrue(result[0])
     }
 
     /**
@@ -206,9 +211,9 @@ class PicoGpioNetClientTest {
         socket.setPins(pinsAndValues)
         socket.flush()
         var result = socket.getPins(pins)
-        assert(result.size == pins.size)
+        assertEquals(result.size, pins.size)
         result.forEach {
-            assert(it.toInt() == 1)
+            assertEquals(1, it.toInt())
         }
 
         values = byteArrayOf(0, 0, 0, 0, 0)
@@ -218,9 +223,9 @@ class PicoGpioNetClientTest {
         socket.setPins(pinsAndValues)
         socket.flush()
         result = socket.getPins(pins)
-        assert(result.size == pins.size)
+        assertEquals(result.size, pins.size)
         result.forEach {
-            assert(it.toInt() == 0)
+            assertEquals(0, it.toInt())
         }
     }
 
@@ -246,12 +251,22 @@ class PicoGpioNetClientTest {
         socket.setPin(1, 0)
         socket.flush()
         var result = socket.getPin(1)
-        assert(result.toInt() == 0)
+        assertEquals(0, result.toInt())
 
         socket.setPin(1, 1)
         socket.flush()
         result = socket.getPin(1)
-        assert(result.toInt() == 1)
+        assertEquals(1, result.toInt())
+    }
+
+    @Test
+    fun byteShiftTest() = runSocketTest{
+        val payload = 260
+        println("Int: $payload")
+        val bytes = payload.toByteArray()
+        println("Bytes: ${bytes.joinToString(",")}")
+        val intVal = bytes.toInt()
+        println("Int: $intVal")
     }
 
 }

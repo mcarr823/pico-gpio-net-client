@@ -64,7 +64,7 @@ class KtorSocketClient : Closeable {
         ipAddress: String,
         port: Int
     ){
-        val selectorManager = SelectorManager(Dispatchers.IO)
+        val selectorManager = SelectorManager(Dispatchers.Default)
 
         socket = aSocket(selectorManager)
             .tcp()
@@ -138,7 +138,7 @@ class KtorSocketClient : Closeable {
             receiveChannel.cancel()
             sendChannel.cancel(Exception("Close function called manually"))
             socket.close()
-        }catch (e: UninitializedPropertyAccessException){
+        }catch (e: Exception){
 
             // This occurs if the connect() function wasn't called,
             // or the connection to the server failed.
