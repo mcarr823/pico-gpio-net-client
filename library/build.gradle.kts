@@ -20,10 +20,26 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    //iosX64()
-    //iosArm64()
-    //iosSimulatorArm64()
     linuxX64()
+
+    // The targets below should be supported, in theory,
+    // based on https://ktor.io/docs/server-platforms.html
+    // But I don't have a Mac to test on, so...
+    iosArm64()
+    iosX64()
+    iosSimulatorArm64()
+    watchosArm32()
+    watchosArm64()
+    watchosSimulatorArm64()
+    tvosArm64()
+    tvosX64()
+    tvosSimulatorArm64()
+    macosX64()
+    macosArm64()
+
+    // Deprecated
+    //iosArm32()
+    //watchosX86()
 
     sourceSets {
         val commonMain by getting {
