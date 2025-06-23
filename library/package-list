@@ -1,0 +1,61 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:dev.mcarr.pgnc.classes////PointingToDeclaration/library/dev.mcarr.pgnc.classes/index.html
+$dokka.location:dev.mcarr.pgnc.classes/Packet.Builder///PointingToDeclaration/library/dev.mcarr.pgnc.classes/-packet/-builder/index.html
+$dokka.location:dev.mcarr.pgnc.classes/Packet.Builder/Builder/#dev.mcarr.pgnc.enums.Command/PointingToDeclaration/library/dev.mcarr.pgnc.classes/-packet/-builder/-builder.html
+$dokka.location:dev.mcarr.pgnc.classes/Packet.Builder/addData/#kotlin.Byte/PointingToDeclaration/library/dev.mcarr.pgnc.classes/-packet/-builder/add-data.html
+$dokka.location:dev.mcarr.pgnc.classes/Packet.Builder/addData/#kotlin.ByteArray/PointingToDeclaration/library/dev.mcarr.pgnc.classes/-packet/-builder/add-data.html
+$dokka.location:dev.mcarr.pgnc.classes/Packet.Builder/build/#/PointingToDeclaration/library/dev.mcarr.pgnc.classes/-packet/-builder/build.html
+$dokka.location:dev.mcarr.pgnc.classes/Packet///PointingToDeclaration/library/dev.mcarr.pgnc.classes/-packet/index.html
+$dokka.location:dev.mcarr.pgnc.classes/Packet/Packet/#kotlin.ByteArray/PointingToDeclaration/library/dev.mcarr.pgnc.classes/-packet/-packet.html
+$dokka.location:dev.mcarr.pgnc.classes/Packet/data/#/PointingToDeclaration/library/dev.mcarr.pgnc.classes/-packet/data.html
+$dokka.location:dev.mcarr.pgnc.enums////PointingToDeclaration/library/dev.mcarr.pgnc.enums/index.html
+$dokka.location:dev.mcarr.pgnc.enums/Command.CMD_DELAY///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}library/dev.mcarr.pgnc.enums/-command/-c-m-d_-d-e-l-a-y/index.html
+$dokka.location:dev.mcarr.pgnc.enums/Command.CMD_GET_API_VERSION///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}library/dev.mcarr.pgnc.enums/-command/-c-m-d_-g-e-t_-a-p-i_-v-e-r-s-i-o-n/index.html
+$dokka.location:dev.mcarr.pgnc.enums/Command.CMD_GET_NAME///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}library/dev.mcarr.pgnc.enums/-command/-c-m-d_-g-e-t_-n-a-m-e/index.html
+$dokka.location:dev.mcarr.pgnc.enums/Command.CMD_GET_PIN_MULTI///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}library/dev.mcarr.pgnc.enums/-command/-c-m-d_-g-e-t_-p-i-n_-m-u-l-t-i/index.html
+$dokka.location:dev.mcarr.pgnc.enums/Command.CMD_GET_PIN_SINGLE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}library/dev.mcarr.pgnc.enums/-command/-c-m-d_-g-e-t_-p-i-n_-s-i-n-g-l-e/index.html
+$dokka.location:dev.mcarr.pgnc.enums/Command.CMD_SET_PIN_MULTI///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}library/dev.mcarr.pgnc.enums/-command/-c-m-d_-s-e-t_-p-i-n_-m-u-l-t-i/index.html
+$dokka.location:dev.mcarr.pgnc.enums/Command.CMD_SET_PIN_SINGLE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}library/dev.mcarr.pgnc.enums/-command/-c-m-d_-s-e-t_-p-i-n_-s-i-n-g-l-e/index.html
+$dokka.location:dev.mcarr.pgnc.enums/Command.CMD_WAIT_FOR_PIN///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}library/dev.mcarr.pgnc.enums/-command/-c-m-d_-w-a-i-t_-f-o-r_-p-i-n/index.html
+$dokka.location:dev.mcarr.pgnc.enums/Command.CMD_WRITE_BYTES///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}library/dev.mcarr.pgnc.enums/-command/-c-m-d_-w-r-i-t-e_-b-y-t-e-s/index.html
+$dokka.location:dev.mcarr.pgnc.enums/Command///PointingToDeclaration/library/dev.mcarr.pgnc.enums/-command/index.html
+$dokka.location:dev.mcarr.pgnc.enums/Command/apiVersion/#/PointingToDeclaration/library/dev.mcarr.pgnc.enums/-command/api-version.html
+$dokka.location:dev.mcarr.pgnc.enums/Command/entries/#/PointingToDeclaration/library/dev.mcarr.pgnc.enums/-command/entries.html
+$dokka.location:dev.mcarr.pgnc.enums/Command/value/#/PointingToDeclaration/library/dev.mcarr.pgnc.enums/-command/value.html
+$dokka.location:dev.mcarr.pgnc.enums/Command/valueOf/#kotlin.String/PointingToDeclaration/library/dev.mcarr.pgnc.enums/-command/value-of.html
+$dokka.location:dev.mcarr.pgnc.enums/Command/values/#/PointingToDeclaration/library/dev.mcarr.pgnc.enums/-command/values.html
+$dokka.location:dev.mcarr.pgnc.socket////PointingToDeclaration/library/dev.mcarr.pgnc.socket/index.html
+$dokka.location:dev.mcarr.pgnc.socket/KtorSocketClient///PointingToDeclaration/library/dev.mcarr.pgnc.socket/-ktor-socket-client/index.html
+$dokka.location:dev.mcarr.pgnc.socket/KtorSocketClient/KtorSocketClient/#/PointingToDeclaration/library/dev.mcarr.pgnc.socket/-ktor-socket-client/-ktor-socket-client.html
+$dokka.location:dev.mcarr.pgnc.socket/KtorSocketClient/close/#/PointingToDeclaration/library/dev.mcarr.pgnc.socket/-ktor-socket-client/close.html
+$dokka.location:dev.mcarr.pgnc.socket/KtorSocketClient/connect/#kotlin.String#kotlin.Int/PointingToDeclaration/library/dev.mcarr.pgnc.socket/-ktor-socket-client/connect.html
+$dokka.location:dev.mcarr.pgnc.socket/KtorSocketClient/flush/#kotlin.Long/PointingToDeclaration/library/dev.mcarr.pgnc.socket/-ktor-socket-client/flush.html
+$dokka.location:dev.mcarr.pgnc.socket/KtorSocketClient/read/#kotlin.Int#kotlin.Long/PointingToDeclaration/library/dev.mcarr.pgnc.socket/-ktor-socket-client/read.html
+$dokka.location:dev.mcarr.pgnc.socket/KtorSocketClient/write/#kotlin.ByteArray#kotlin.Boolean#kotlin.Long/PointingToDeclaration/library/dev.mcarr.pgnc.socket/-ktor-socket-client/write.html
+$dokka.location:dev.mcarr.pgnc////PointingToDeclaration/library/dev.mcarr.pgnc/index.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient.Companion///PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/-companion/index.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient.Companion/toByteArray/kotlin.Int#/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/-companion/to-byte-array.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient.Companion/toByteArray/kotlin.Short#/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/-companion/to-byte-array.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient.Companion/toInt/kotlin.ByteArray#/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/-companion/to-int.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient///PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/index.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/PicoGpioNetClient/#kotlin.String#kotlin.Int#kotlin.Boolean/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/-pico-gpio-net-client.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/close/#/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/close.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/connect/#/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/connect.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/delay/#kotlin.Short/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/delay.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/flush/#/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/flush.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/getApiVersion/#/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/get-api-version.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/getName/#/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/get-name.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/getPin/#kotlin.Byte/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/get-pin.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/getPins/#kotlin.ByteArray/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/get-pins.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/read/#dev.mcarr.pgnc.classes.Packet#kotlin.Int/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/read.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/read/#kotlin.Int/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/read.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/setPin/#kotlin.Byte#kotlin.Byte/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/set-pin.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/setPins/#kotlin.collections.List[kotlin.Pair[kotlin.Byte,kotlin.Byte]]/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/set-pins.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/spiWrite/#kotlin.ByteArray/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/spi-write.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/waitForPin/#kotlin.Byte#kotlin.Byte#kotlin.Short/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/wait-for-pin.html
+$dokka.location:dev.mcarr.pgnc/PicoGpioNetClient/write/#dev.mcarr.pgnc.classes.Packet/PointingToDeclaration/library/dev.mcarr.pgnc/-pico-gpio-net-client/write.html
+dev.mcarr.pgnc
+dev.mcarr.pgnc.classes
+dev.mcarr.pgnc.enums
+dev.mcarr.pgnc.socket
