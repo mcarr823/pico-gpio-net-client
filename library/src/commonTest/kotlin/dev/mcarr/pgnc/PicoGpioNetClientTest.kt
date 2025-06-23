@@ -259,6 +259,14 @@ class PicoGpioNetClientTest {
         assertEquals(1, result.toInt())
     }
 
+    /**
+     * Test if converting bytes back and forth from ints works correctly.
+     *
+     * This was implemented to make sure that bit-shifting ints worked
+     * the same as using a ByteBuffer.
+     * (ByteBuffers aren't platform-agnostic, so we can't use those
+     * anymore)
+     * */
     @Test
     fun byteShiftTest() = runSocketTest{
         val payload = 260
