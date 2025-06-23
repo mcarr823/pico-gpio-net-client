@@ -68,3 +68,37 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
+
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    signAllPublications()
+
+    coordinates(group.toString(), "library", version.toString())
+
+    pom {
+        name = "Kotlin PGN Client Library"
+        description = "Kotlin Multiplatform Module for communicating with Rasperry Pi Pico micro-controllers"
+        inceptionYear = "2025"
+        url = "https://github.com/mcarr823/pico-gpio-net-client/"
+        licenses {
+            license {
+                name = "GNU GENERAL PUBLIC LICENSE, Version 3"
+                url = "https://www.gnu.org/licenses/gpl-3.0.en.html"
+                distribution = "https://www.gnu.org/licenses/gpl-3.0.en.html"
+            }
+        }
+        developers {
+            developer {
+                id = "mcarr823"
+                name = "mcarr823"
+                url = "https://github.com/mcarr823/"
+            }
+        }
+        scm {
+            url = "https://github.com/mcarr823/pico-gpio-net-client/"
+            connection = "scm:git:git://github.com/mcarr823/pico-gpio-net-client.git"
+            developerConnection = "scm:git:ssh://git@github.com/mcarr823/pico-gpio-net-client.git"
+        }
+    }
+}
