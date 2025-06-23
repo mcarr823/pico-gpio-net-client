@@ -54,3 +54,7 @@ dependencies {
     implementation("dev.mcarr:pgnc:0.0.1")
 }
 ```
+
+## API Documentation
+
+Javadoc can be found [here](https://mcarr823.github.io/pico-gpio-net-client/).
