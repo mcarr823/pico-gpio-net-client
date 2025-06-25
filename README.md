@@ -7,6 +7,22 @@ PGNC (pico-gpio-net-client) is a Kotlin library for interacting with a [pico-gpi
 It abstracts away the nitty-gritty of communicating with PGN, so you can utilize human-readable client commands instead of manipulating raw byte data.
 
 
+## Supported platforms
+
+PGNC supports all KMM platforms except for web.
+
+| Platform | Supported |
+|----------|-----------|
+| JVM      | &check;   |
+| Android  | &check;   |
+| Native   | &check;   |
+| iOS      | &check;   |
+| Web      | &cross;   |
+| tvOS     | &check;   |
+| watchOS  | &check;   |
+
+* Note that although all platforms (except web) are supported and _should_ work, only JVM and Native Linux have actually been tested.
+
 ## Example usage
 
 ```kotlin
@@ -32,26 +48,37 @@ Under-the-hood, the client library is doing the following:
 - waits to read that number of bytes from the socket
 - converts the response into a String
 
-## How do I use it?
+## Setup
 
-This library has not yet been published anywhere publicly-accessible.
+The setup instructions below assume that you're building a gradle project, with a TOML file for dependency management and KTS files for gradle scripts.
 
-As such, it currently requires you to open this project on your own PC and publish the library to your own maven server.
+The instructions should still work for other setups with minor changes.
 
-eg. To publish the repository onto your own PC, you would run:
+1. Add the library definition and version to your TOML file (if you use one):
 
-`gradlew publishToMavenLocal`
+```toml
+# libs.versions.toml
 
-After that, you can import the library into a different project by adding mavenLocal to your repositories list, and pgnc to your dependencies.
+[versions]
+pgnc = "1.0.0"
 
-eg. In build.gradle.kts:
+[libraries]
+pgnc-library-core = { module = "dev.mcarr.pgnc:library", version.ref = "pgnc" }
+```
+
+2. Add the dependency to your app's build.gradle.kts file:
 
 ```Kotlin
-repositories {
-    mavenLocal()
-}
-dependencies {
-    implementation("dev.mcarr:pgnc:0.0.1")
+// app (not root) build.gradle.kts
+
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.d253.library.core)
+            }
+        }
+    }
 }
 ```
 
