@@ -75,7 +75,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.d253.library.core)
+                implementation(libs.pgnc.library.core)
             }
         }
     }
