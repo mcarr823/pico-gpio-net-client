@@ -1,5 +1,9 @@
 # pico-gpio-net-client
 
+[![Compile and run unit tests](actions/workflows/gradle.yml/badge.svg)](actions/workflows/gradle.yml)
+[![Javadoc](actions/workflows/publish-javadoc.yml/badge.svg)](actions/workflows/publish-javadoc.yml)
+[![Maven](actions/workflows/publish.yml/badge.svg)](actions/workflows/publish.yml)
+
 ## What is it?
 
 PGNC (pico-gpio-net-client) is a Kotlin library for interacting with a [pico-gpio-net (PGN) daemon](https://github.com/mcarr823/pico-gpio-net) running on a Raspberry Pi Pico.
