@@ -394,13 +394,56 @@ class PicoGpioNetClient(
          * Converts an array of bytes which was received from the TCP
          * socket to an Int.
          *
+         * Expects the byte array to be 4 bytes in length.
+         *
          * @return Int value represented by the byte array
          * */
         fun ByteArray.toInt(): Int =
             (this[0].toInt() shl 24) or
-            (this[1].toInt() and 0xff shl 16) or
-            (this[2].toInt() and 0xff shl 8) or
-            (this[3].toInt() and 0xff)
+                    (this[1].toInt() and 0xff shl 16) or
+                    (this[2].toInt() and 0xff shl 8) or
+                    (this[3].toInt() and 0xff)
+
+        /**
+         * Converts an array of bytes which was received from the TCP
+         * socket to a Short.
+         *
+         * Note that the return type is actually Int, but the value
+         * of the Int will be in the range of a Short.
+         *
+         * Expects the byte array to be 2 bytes in length.
+         *
+         * @return Int value represented by the byte array
+         * */
+        fun ByteArray.toShort(): Int =
+            (this[0].toInt() and 0xff shl 8) or
+                    (this[1].toInt() and 0xff)
+
+        /**
+         * Converts an array of bytes which was received from the TCP
+         * socket to an Int.
+         *
+         * Extracts the first 1, 2, or 4 bytes from the ByteArray and converts
+         * them into a number.
+         *
+         * If 1 byte in length, it is parsed as a byte.
+         *
+         * If 2 bytes in length, it is parsed as a short.
+         *
+         * If 4 bytes in length, it is parsed as an int.
+         *
+         * @param Number of bytes to be taken from the byte array and
+         * converted into a number
+         *
+         * @return Int value represented by the byte array
+         * */
+        fun ByteArray.toInt(numberOfBytes: Int): Int =
+            when(numberOfBytes){
+                4 -> toInt()
+                2 -> toShort()
+                1 -> this[0].toInt()
+                else -> throw NumberFormatException("Byte array must be 1, 2, or 4 bytes in length")
+            }
 
     }
 

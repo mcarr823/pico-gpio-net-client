@@ -2,8 +2,10 @@ package dev.mcarr.pgnc
 
 import dev.mcarr.pgnc.PicoGpioNetClient.Companion.toByteArray
 import dev.mcarr.pgnc.PicoGpioNetClient.Companion.toInt
-import io.ktor.utils.io.core.use
+import io.ktor.utils.io.core.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withContext
 import kotlin.test.Test
@@ -13,9 +15,12 @@ import kotlin.test.assertTrue
 /**
  * Unit tests for the PicoGpioNetClient class.
  *
- * Note that in order to run, these tests require either
- * a Pico device running the PGN daemon, or a mock PGN
- * daemon running on a non-Pico device.
+ * These tests can be run with either a real Pico
+ * device running the PGN daemon, or a mock
+ * implementation using the MockServer class.
+ *
+ * You should change the variables ip, port,
+ * and useRealDevice to suit your use case.
  *
  * @see PicoGpioNetClient
  * */
@@ -37,6 +42,20 @@ class PicoGpioNetClientTest {
     private val port = 8080
 
     /**
+     * Specifies whether the tests should be run on a real
+     * Pico device or not.
+     *
+     * If true, the tests will assume that a real device is
+     * available on the given ip and port.
+     *
+     * If false, the MockServer class is used to provide
+     * a virtual endpoint instead.
+     *
+     * @see MockServer
+     * */
+    private val useRealDevice = false
+
+    /**
      * Establishes a connection to the PGN daemon and handles
      * the connection/disconnection of the socket.
      *
@@ -53,17 +72,52 @@ class PicoGpioNetClientTest {
      * */
     private fun runSocketTest(
         callback: suspend (PicoGpioNetClient) -> Unit
-    ){
+    )=
         runTest {
+
+            // Setup a mock server on another thread, if requires
+            val serverThread = launch(Dispatchers.Default.limitedParallelism(1)){
+                if (!useRealDevice) {
+                    val server = MockServer(ip, port, name = "Test server", maxSizeKb = 32)
+                    server.runDaemon()
+                }
+            }
+
+            // Create the client socket class
             val socket = PicoGpioNetClient(ip, port)
-            socket.connect()
+
+            // Keep trying to connect to the server in a loop.
+            // The port might not have been freed and reclaimed yet by the time
+            // this code runs after another test has completed, so we need to
+            // wait for it.
+            // There's probably a cleaner way to do this, but I can't find any
+            // which are cross-platform, so a loop will have to do for now.
+            var i = 0
+            while(i++ < 1000) {
+                try {
+                    socket.connect()
+                    break
+                } catch (e: Exception) {
+                    delay(100)
+                    // Likely a connection exception.
+                    // The exact connection type varies depending on the platform though,
+                    // so we can't be more specific inside of a common test.
+                }
+            }
+
             withContext(Dispatchers.Default.limitedParallelism(1)) {
+
+                // Open the socket connection, run the test via the callback, then close
+                // automatically when the use block ends.
                 socket.use{
                     callback(it)
                 }
+
+                // Close the mock server, if required
+                serverThread.cancel()
+
             }
         }
-    }
 
     /**
      * Tests the `getName` function by querying the PGN daemon
